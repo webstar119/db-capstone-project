@@ -2,7 +2,6 @@ USE littlelemondb;
 
 -- =====================================================
 -- 1. STAFF
--- StaffID is AUTO_INCREMENT, so do not insert StaffID.
 -- =====================================================
 
 INSERT INTO Staff (FirstName, LastName, Role, Salary, ManagerID)
@@ -28,7 +27,6 @@ SET @staff_sophia_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 2. CUSTOMERS
--- CustomerID is AUTO_INCREMENT.
 -- =====================================================
 
 INSERT INTO Customers (FirstName, LastName, Cell, Email)
@@ -59,7 +57,6 @@ SET @customer_marlon_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 3. MENU
--- MenuID is AUTO_INCREMENT.
 -- =====================================================
 
 INSERT INTO Menu (MenuName, Cuisine)
@@ -85,8 +82,6 @@ SET @menu_dessert_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 4. MENU ITEMS
--- ItemID is AUTO_INCREMENT.
--- MenuID is a foreign key, so we use the saved MenuID variables.
 -- =====================================================
 
 INSERT INTO MenuItems (MenuID, ItemName, Category, Price)
@@ -132,8 +127,6 @@ SET @item_cheesecake_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 5. BOOKINGS
--- BookingID is AUTO_INCREMENT.
--- StaffID and CustomerID are foreign keys.
 -- =====================================================
 
 INSERT INTO Bookings (BookingDate, TableNo, StaffID, CustomerID)
@@ -164,8 +157,6 @@ SET @booking_5_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 6. ORDERS
--- OrderID is AUTO_INCREMENT.
--- BookingID is a foreign key.
 -- =====================================================
 
 INSERT INTO Orders (OrderDate, TotalCost, BookingID)
@@ -196,8 +187,6 @@ SET @order_5_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 7. ORDER STATUS
--- StatusID is AUTO_INCREMENT.
--- OrderID is a foreign key.
 -- =====================================================
 
 INSERT INTO OrderStatus (DeliveryDate, Status, OrderID)
@@ -218,8 +207,6 @@ VALUES ('2026-05-26', 'Out for Delivery', @order_5_id);
 
 -- =====================================================
 -- 8. ORDER ITEMS
--- OrderItemID is AUTO_INCREMENT.
--- OrderID and ItemID are foreign keys.
 -- =====================================================
 
 INSERT INTO OrderItems (OrderID, ItemID, Quantity, UnitPrice)
@@ -263,12 +250,6 @@ VALUES (@order_5_id, @item_coffee_id, 1, 6.00);
 -- ========================== Next Section ========================================
 
 USE littlelemondb;
-
--- =====================================================
--- SECOND BATCH OF TEST DATA
--- IDs are AUTO_INCREMENT, so do not manually insert IDs.
--- =====================================================
-
 
 -- =====================================================
 -- 1. STAFF
@@ -479,11 +460,6 @@ VALUES ('2026-05-29', 'Ready to pay', @order_10_id);
 -- 8. ORDER ITEMS
 -- =====================================================
 
--- Order 6 total = 24 + 22 + 7 + 2 = 55? 
--- Actually this order uses: Salmon 24, Shrimp 22, Rice 7, Orange Juice 5 = 58.
--- So to match TotalCost 55, use Salmon 24 + Shrimp 22 + Rice 7 + Juice 2 is not possible.
--- Below, we use the actual item prices and the order total should be updated to 58 if you want perfect math.
-
 INSERT INTO OrderItems (OrderID, ItemID, Quantity, UnitPrice)
 VALUES (@order_6_id, @item_salmon_id, 1, 24.00);
 
@@ -548,14 +524,6 @@ VALUES (@order_10_id, @item_grape_leaves_id, 1, 10.00);
 
 USE littlelemondb;
 
--- =====================================================
--- EXTRA TEST DATA: ORDERS WITH QUANTITY GREATER THAN 2
--- This batch assumes you already have at least one Staff record.
--- =====================================================
-
-
--- Get one existing staff member to assign to these bookings.
--- This avoids inserting new Staff if ManagerID is causing issues.
 SELECT StaffID INTO @existing_staff_id
 FROM Staff
 ORDER BY StaffID
@@ -634,7 +602,6 @@ SET @booking_13_id = LAST_INSERT_ID();
 
 -- =====================================================
 -- 4. ADD ORDERS
--- Totals are based on the OrderItems below.
 -- =====================================================
 
 -- Order total: 3 Mezze Platters = 54, 4 Lemonades = 16, Total = 70
